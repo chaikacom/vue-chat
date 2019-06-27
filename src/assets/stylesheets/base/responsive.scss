@@ -1,0 +1,24 @@
+@mixin mq($query) {
+    @if $query == desktop {
+        @media screen and (min-width: $breakpoint) {
+            @content;
+        }
+    }
+    @if $query == mobile {
+        @media screen and (max-width: $breakpoint - 1px) {
+            @content
+        }
+    }
+}
+
+@mixin is-desktop {
+    .multichat.is-desktop & {
+        @content
+    }
+}
+
+@mixin is-mobile {
+    .multichat.is-mobile & {
+        @content
+    }
+}

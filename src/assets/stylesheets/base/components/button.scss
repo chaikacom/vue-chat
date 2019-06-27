@@ -1,0 +1,11 @@
+@mixin button-reset {
+    -webkit-appearance: none;
+    cursor: pointer;
+    border: none;
+    border-radius: 0;
+    background: none;
+    font-size: inherit;
+    font-family: inherit;
+    color: inherit;
+    line-height: inherit;
+}
