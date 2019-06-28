@@ -8,17 +8,17 @@
 </template>
 
 <script>
-  import Spinner from './Spinner.vue'
+import Spinner from './Spinner.vue'
 
-  export default {
-    components: { Spinner },
+export default {
+  components: { Spinner },
 
-    methods: {
-      hasSlot (name) {
-        return !!this.$slots[name]
-      }
+  methods: {
+    hasSlot (name) {
+      return !!this.$slots[name]
     }
   }
+}
 </script>
 
 <style lang="scss">

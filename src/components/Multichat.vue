@@ -23,11 +23,10 @@
 <script>
 import Chat from './Chat.vue'
 import Contacts from './Contacts.vue'
-import Spinner from './Spinner.vue'
 import Preloader from './Preloader.vue'
 
 export default {
-  components: { Chat, Contacts, Spinner, Preloader },
+  components: { Chat, Contacts, Preloader },
 
   props: {
     service: { type: Object, default: () => ({}) }

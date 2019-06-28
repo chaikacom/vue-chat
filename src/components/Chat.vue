@@ -105,6 +105,7 @@ export default {
     top: 0;
     background: #fff;
     padding: $padding-size;
+    z-index: 1;
   }
 
   .chat__messages {
@@ -116,5 +117,11 @@ export default {
     position: sticky;
     bottom: 0;
     padding: $padding-size;
+  }
+
+  .chat__form-textarea {
+    display: block;
+    width: 100%;
+    resize: none;
   }
 </style>

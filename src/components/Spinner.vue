@@ -3,23 +3,23 @@
 </template>
 
 <script>
-  export default {
-    props: {
-      speed: { type: String, default: 'normal' },
-      size: { type: String, default: 'md' }
-    },
+export default {
+  props: {
+    speed: { type: String, default: 'normal' },
+    size: { type: String, default: 'md' }
+  },
 
-    computed: {
-      classList () {
-        const speed = `spinner--${this.speed}`
-        const size = `spinner--${this.size}`
-        return {
-          [speed]: true,
-          [size]: true
-        }
+  computed: {
+    classList () {
+      const speed = `spinner--${this.speed}`
+      const size = `spinner--${this.size}`
+      return {
+        [speed]: true,
+        [size]: true
       }
     }
   }
+}
 </script>
 
 <style lang="scss">
