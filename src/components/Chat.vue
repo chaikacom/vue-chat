@@ -58,6 +58,10 @@ export default {
       }
     },
 
+    form () {
+      return new Message({ text: this.msg, updatedAt: new Date(), createdAt: new Date() })
+    },
+
     hasMessages () {
       return this.messages && this.messages.length
     }
@@ -69,8 +73,8 @@ export default {
 
   methods: {
     submit () {
-      const model = new Message({ text: this.msg, updatedAt: new Date(), createdAt: new Date() })
-      this.$emit('submit', model)
+      this.$emit('submit', this.form)
+      this.msg = null
     },
 
     scrollEnd () {
@@ -101,6 +105,7 @@ export default {
     top: 0;
     background: #fff;
     padding: $padding-size;
+    z-index: 1;
   }
 
   .chat__messages {
@@ -112,5 +117,11 @@ export default {
     position: sticky;
     bottom: 0;
     padding: $padding-size;
+  }
+
+  .chat__form-textarea {
+    display: block;
+    width: 100%;
+    resize: none;
   }
 </style>

@@ -1,4 +1,12 @@
-# vue-admin-chat
+## Props
+### service
+An object. Should extend Service class
+
+## Service class methods
+- getContacts. Returns an array of Contact instances
+- getMessages. Returns an array of Message instances
+- sendMessage. return promise
+- search. Returns an array of Contact instances
 
 ## Project setup
 ```
