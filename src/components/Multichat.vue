@@ -57,7 +57,7 @@ export default {
 
   watch: {
     contact (value) {
-      this.messages = null,
+      this.messages = null
       this.message = null
       this.getMessages(value)
     }
