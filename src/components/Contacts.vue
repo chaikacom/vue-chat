@@ -48,9 +48,7 @@ export default {
     @import "common";
 
     .contacts {
-      height: 100%;
-      display: flex;
-      flex-direction: column;
+      font-family: sans-serif;
       border: 1px solid $border-color;
     }
 
