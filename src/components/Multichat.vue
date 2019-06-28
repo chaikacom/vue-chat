@@ -12,8 +12,10 @@
 
     <chat class="multichat__main multichat__chat"
           ref="chat"
+          v-if="contact"
           :messages="messages"
           :message="message"
+          @input="message = $event"
           @submit="submit"></chat>
   </div>
 </template>

@@ -58,6 +58,10 @@ export default {
       }
     },
 
+    form () {
+      return new Message({ text: this.msg, updatedAt: new Date(), createdAt: new Date() })
+    },
+
     hasMessages () {
       return this.messages && this.messages.length
     }
@@ -69,8 +73,8 @@ export default {
 
   methods: {
     submit () {
-      const model = new Message({ text: this.msg, updatedAt: new Date(), createdAt: new Date() })
-      this.$emit('submit', model)
+      this.$emit('submit', this.form)
+      this.msg = null
     },
 
     scrollEnd () {
