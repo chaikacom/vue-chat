@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <contacts :contacts="contacts" ref="contacts" v-model="contact"></contacts>
     <chat :messages="messages"
           :message="message"
           ref="chat"
@@ -10,21 +11,24 @@
 </template>
 
 <script>
+import Contacts from './components/Contacts.vue'
 import Chat from './components/Chat.vue'
+
 import messages from './data/messages'
+import contacts from './data/users'
 
 export default {
   name: 'app',
-  components: {
-    Chat
-  },
+  components: { Chat, Contacts },
   data () {
     return {
       messages: messages,
-      message: null
+      message: null,
+      contacts: contacts,
+      contact: null
     }
   },
-
+  
   methods: {
     submit (model) {
       this.messages.push(model)
