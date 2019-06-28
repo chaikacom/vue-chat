@@ -54,11 +54,16 @@ export default {
     }
   },
 
+  watch: {
+    contact (value) {
+      this.messages = null,
+      this.message = null
+      this.getMessages(value)
+    }
+  },
+
   mounted () {
-    this.getContacts().then(() => {
-      this.contact = this.contacts[0]
-      this.getMessages()
-    })
+    this.getContacts()
   },
 
   methods: {
@@ -78,10 +83,18 @@ export default {
         })
     },
 
-    getMessages () {
+    getMessages (id) {
       this.busy = true
-      return this.service.getMessages(this.contact)
-        .then(messages => (this.messages = messages))
+      return this.service.getMessages(id)
+        .then(messages => {
+          this.messages = messages
+          this.$refs.chat.scrollEnd()
+        })
+        .catch(err => {
+          console.warn(err)
+          this.message = null
+          this.messages = null
+        })
         .finally(() => (this.busy = false))
     }
   }
