@@ -1,6 +1,11 @@
 <template>
   <div class="multichat" :class="classList">
     <div class="multichat__aside">
+
+      <div class="multichat__aside-inner">
+        <searchbar v-model="query" @input="search" placeholder="Search..."></searchbar>
+      </div>
+
       <contacts
         class="multichat__contacts"
         ref="contacts"
@@ -24,9 +29,10 @@
 import Chat from './Chat.vue'
 import Contacts from './Contacts.vue'
 import Preloader from './Preloader.vue'
+import Searchbar from './Searchbar.vue'
 
 export default {
-  components: { Chat, Contacts, Preloader },
+  components: { Chat, Contacts, Preloader, Searchbar },
 
   props: {
     service: { type: Object, default: () => ({}) }
@@ -39,6 +45,7 @@ export default {
       contact: null,
       messages: null,
       message: null,
+      query: null,
 
       loading: {
         contacts: false,
@@ -68,6 +75,10 @@ export default {
   },
 
   methods: {
+    search () {
+      // todo
+    },
+
     submit (model) {
       this.service.sendMessage().then(() => {
         this.messages.push(model)
@@ -113,12 +124,17 @@ export default {
     border: 1px solid $border-color;
     border-radius: 5px;
     overflow: hidden;
+    font-family: sans-serif;
   }
 
   .multichat__aside {
     flex: 0 0 $aside-width;
     overflow: auto;
     border-right: 1px solid $border-color;
+  }
+
+  .multichat__aside-inner {
+    padding: $padding-size;
   }
 
   .multichat__contacts {
