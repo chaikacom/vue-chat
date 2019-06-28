@@ -1,9 +1,17 @@
 import Service from './Service'
 
-// import users from '../data/users'
-// import messages from '../data/messages'
+import search from '../data/search'
 
 export default class Demo extends Service {
+  search (options = {}) {
+    console.log(options)
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        resolve(search)
+      }, 500)
+    })
+  }
+
   getContacts () {
     return new Promise((resolve, reject) => {
       import(/* webpackChunkName: 'contacts' */ '../data/users')

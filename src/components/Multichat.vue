@@ -2,9 +2,7 @@
   <div class="multichat" :class="classList">
     <div class="multichat__aside">
 
-      <div class="multichat__aside-inner">
-        <searchbar v-model="query" @input="search" placeholder="Search..."></searchbar>
-      </div>
+      <search v-model="search"></search>
 
       <contacts
         class="multichat__contacts"
@@ -29,10 +27,11 @@
 import Chat from './Chat.vue'
 import Contacts from './Contacts.vue'
 import Preloader from './Preloader.vue'
-import Searchbar from './Searchbar.vue'
+import Search from './Search.vue'
+import SearchModel from './models/Search'
 
 export default {
-  components: { Chat, Contacts, Preloader, Searchbar },
+  components: { Chat, Contacts, Preloader, Search },
 
   props: {
     service: { type: Object, default: () => ({}) }
@@ -45,7 +44,7 @@ export default {
       contact: null,
       messages: null,
       message: null,
-      query: null,
+      search: new SearchModel(),
 
       loading: {
         contacts: false,
@@ -66,7 +65,16 @@ export default {
     contact (value) {
       this.messages = null
       this.message = null
+      if (!value) return
       this.getMessages(value)
+    },
+
+    search (options) {
+      if (!options.query) {
+        this.getContacts()
+      } else {
+        this.find(options)
+      }
     }
   },
 
@@ -75,8 +83,14 @@ export default {
   },
 
   methods: {
-    search () {
-      // todo
+    find (options) {
+      this.busy = true
+      this.service.search(options)
+        .then(results => {
+          this.contact = null
+          this.contacts = results
+        })
+        .finally(() => (this.busy = false))
     },
 
     submit (model) {

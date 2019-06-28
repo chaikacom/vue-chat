@@ -5,34 +5,34 @@
 </template>
 
 <script>
-  import debounce from '../utils/debounce'
-  export default {
-    props: {
-      value: {},
-      delay: { type: Number, default: 500 }
-    },
+import debounce from '../utils/debounce'
+export default {
+  props: {
+    value: {},
+    delay: { type: Number, default: 500 }
+  },
 
-    computed: {
-      query: {
-        get () {
-          return this.value
-        },
-        set (value) {
-          this.input(value)
-        }
-      }
-    },
-
-    created () {
-      this.input = debounce(this.input, this.delay)
-    },
-
-    methods: {
-      input (value) {
-        this.$emit('input', value)
+  computed: {
+    query: {
+      get () {
+        return this.value
+      },
+      set (value) {
+        this.input(value)
       }
     }
+  },
+
+  created () {
+    this.input = debounce(this.input, this.delay)
+  },
+
+  methods: {
+    input (value) {
+      this.$emit('input', value)
+    }
   }
+}
 </script>
 
 <style lang="scss">
