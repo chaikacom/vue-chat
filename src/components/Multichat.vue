@@ -69,8 +69,10 @@ export default {
 
   methods: {
     submit (model) {
-      this.messages.push(model)
-      this.$refs.chat.scrollEnd()
+      this.service.sendMessage().then(() => {
+        this.messages.push(model)
+        this.$refs.chat.scrollEnd()
+      })
     },
 
     getContacts () {

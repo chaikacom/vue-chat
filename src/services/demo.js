@@ -19,4 +19,10 @@ export default class Demo extends Service {
         .catch(err => reject(err))
     })
   }
+
+  sendMessage (message) {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => resolve('ok!'), 500)
+    })
+  }
 }
