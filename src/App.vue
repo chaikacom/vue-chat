@@ -1,38 +1,19 @@
 <template>
   <div id="app">
-    <contacts :contacts="contacts" ref="contacts" v-model="contact"></contacts>
-    <chat :messages="messages"
-          :message="message"
-          ref="chat"
-          @input="message = $event"
-          @submit="submit">
-    </chat>
+    <multichat :service="service"></multichat>
   </div>
 </template>
 
 <script>
-import Contacts from './components/Contacts.vue'
-import Chat from './components/Chat.vue'
-
-import messages from './data/messages'
-import contacts from './data/users'
+import DemoService from './services/demo'
+import Multichat from './components/Multichat.vue'
 
 export default {
   name: 'app',
-  components: { Chat, Contacts },
+  components: { Multichat },
   data () {
     return {
-      messages: messages,
-      message: null,
-      contacts: contacts,
-      contact: null
-    }
-  },
-  
-  methods: {
-    submit (model) {
-      this.messages.push(model)
-      this.$refs.chat.scrollEnd()
+      service: new DemoService()
     }
   }
 }
@@ -41,7 +22,14 @@ export default {
 <style>
   #app {
     height: 100vh;
-    width: 960px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    max-width: 960px;
     margin: auto;
+  }
+
+  .multichat {
+    height: 590px;
   }
 </style>
