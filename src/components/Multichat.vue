@@ -133,6 +133,10 @@ export default {
     border-right: 1px solid $border-color;
   }
 
+  .multichat__main {
+    flex: 1 1 auto;
+  }
+
   .multichat__aside-inner {
     padding: $padding-size;
   }

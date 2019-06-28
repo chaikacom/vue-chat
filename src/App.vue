@@ -25,7 +25,7 @@ export default {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    max-width: 800px;
+    max-width: 940px;
     margin: auto;
   }
 
