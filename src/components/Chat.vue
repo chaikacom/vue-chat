@@ -17,9 +17,9 @@
           <textarea cols="30"
                     rows="1"
                     class="chat__form-textarea"
-                    :value="message"
-                    v-autosize
-                    @input="$emit('input', $event.target.value)"></textarea>
+                    v-model="msg"
+                    v-autosize>
+          </textarea>
       </div>
 
       <div class="field">
@@ -32,6 +32,7 @@
 </template>
 
 <script>
+import Message from './models/Message'
 import Messages from './Messages.vue'
 import autosize from '../mixins/autosize'
 
@@ -44,18 +45,38 @@ export default {
 
   props: {
     message: {},
-    messages: {},
+    messages: {}
   },
 
   computed: {
+    msg: {
+      get () {
+        return this.message
+      },
+      set (value) {
+        this.$emit('input', value)
+      }
+    },
+
     hasMessages () {
       return this.messages && this.messages.length
     }
   },
 
-  methods: {
-    submit (e) {
+  mounted () {
+    this.scrollEnd()
+  },
 
+  methods: {
+    submit () {
+      const model = new Message({ text: this.msg, updatedAt: new Date(), createdAt: new Date() })
+      this.$emit('submit', model)
+    },
+
+    scrollEnd () {
+      this.$nextTick(() => {
+        this.$el.scrollTop = this.$el.scrollHeight
+      })
     }
   }
 }

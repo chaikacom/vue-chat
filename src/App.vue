@@ -1,6 +1,11 @@
 <template>
   <div id="app">
-    <chat :messages="messages" :message="message"></chat>
+    <chat :messages="messages"
+          :message="message"
+          ref="chat"
+          @input="message = $event"
+          @submit="submit">
+    </chat>
   </div>
 </template>
 
@@ -17,6 +22,13 @@ export default {
     return {
       messages: messages,
       message: null
+    }
+  },
+
+  methods: {
+    submit (model) {
+      this.messages.push(model)
+      this.$refs.chat.scrollEnd()
     }
   }
 }
