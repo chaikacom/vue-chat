@@ -2,6 +2,14 @@
   <div class="multichat" :class="classList">
     <div class="multichat__aside">
 
+      <ul class="multichat__channels" v-if="channels && channels.length">
+        <li class="multichat__channel" v-for="item in channels" :key="item.id">
+          <button type="button" class="multichat__channel-button" :class="{ 'is-active': channel === item.id  }" @click="channel = item.id">
+            {{ item.label }}
+          </button>
+        </li>
+      </ul>
+
       <search v-model="search"></search>
 
       <contacts
@@ -45,6 +53,8 @@ export default {
       messages: null,
       message: null,
       search: new SearchModel(),
+      channels: null,
+      channel: null,
 
       loading: {
         contacts: false,
@@ -62,6 +72,10 @@ export default {
   },
 
   watch: {
+    channel (value) {
+      this.getContacts()
+    },
+
     contact (value) {
       this.messages = null
       this.message = null
@@ -79,7 +93,7 @@ export default {
   },
 
   mounted () {
-    this.getContacts()
+    this.getChannels()
   },
 
   methods: {
@@ -93,6 +107,13 @@ export default {
         .finally(() => (this.busy = false))
     },
 
+    getChannels () {
+      this.busy = true
+      this.service.getChannels()
+        .then(channels => (this.channels = channels))
+        .finally(() => (this.busy = false))
+    },
+
     submit (model) {
       this.service.sendMessage().then(() => {
         this.messages.push(model)
@@ -103,7 +124,7 @@ export default {
     getContacts () {
       this.loading.contacts = true
       this.busy = true
-      return this.service.getContacts()
+      return this.service.getContacts(this.channel)
         .then(contacts => (this.contacts = contacts))
         .finally(() => {
           this.busy = false
@@ -111,9 +132,9 @@ export default {
         })
     },
 
-    getMessages (id) {
+    getMessages () {
       this.busy = true
-      return this.service.getMessages(id)
+      return this.service.getMessages(this.channel, this.contact)
         .then(messages => {
           this.messages = messages
           this.$refs.chat.scrollEnd()
@@ -161,5 +182,22 @@ export default {
 
   .multichat__chat {
     border: 0;
+  }
+
+  .multichat__channels {
+    display: flex;
+    & > * {
+      flex: 1 1 auto;
+      display: block;
+    }
+  }
+
+  .multichat__channel-button {
+    display: block;
+    width: 100%;
+
+    &.is-active {
+      background: $color-green;
+    }
   }
 </style>

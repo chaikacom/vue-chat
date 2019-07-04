@@ -10,4 +10,8 @@ export default class Service {
   sendMessages () {
     throw new Error('method is not defined')
   }
+
+  getChannels () {
+    throw new Error('method is not defined')
+  }
 }

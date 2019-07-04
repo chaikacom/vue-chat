@@ -4,7 +4,6 @@ import search from '../data/search'
 
 export default class Demo extends Service {
   search (options = {}) {
-    console.log(options)
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         resolve(search)
@@ -12,10 +11,10 @@ export default class Demo extends Service {
     })
   }
 
-  getContacts () {
+  getContacts (channel) {
     return new Promise((resolve, reject) => {
       import(/* webpackChunkName: 'contacts' */ '../data/users')
-        .then(users => resolve(users.default))
+        .then(users => resolve(users.default[channel]))
         .catch(err => reject(err))
     })
   }
@@ -31,6 +30,15 @@ export default class Demo extends Service {
   sendMessage (message) {
     return new Promise((resolve, reject) => {
       setTimeout(() => resolve('ok!'), 500)
+    })
+  }
+
+  getChannels () {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => resolve([
+        { id: 'tg', icon: 'paper-plane', label: 'Telegram' },
+        { id: 'email', icon: 'envelope', label: 'E-mail' }
+      ]), 500)
     })
   }
 }

@@ -1,4 +1,4 @@
-export default [{
+export const tg = [{
   'id': '1f0d3a9a-f32b-41fe-934a-7aab45e2b040',
   'email': 'yk@chaika.com',
   'fullname': 'КОЛЕСНИКОВА Яна Андреевна',
@@ -14,20 +14,28 @@ export default [{
   'messages': null,
   'message': null,
   'tg': '89045245'
-}, {
-  'id': 'eccdfcac-46c5-4de3-9078-a4284de393d4',
-  'email': 'xdimedrolx@aol.com',
-  'fullname': 'ВЕРИЖНИКОВ Дмитрий Игоревич',
-  'phone': '+79530291301',
-  'messages': null,
-  'message': null,
-  'tg': '39129'
-}, {
-  'id': '51549b69-4872-448e-91e2-d2d48184892f',
-  'email': 'thevadeem@gmail.com',
-  'fullname': 'Кочергин Вадим Александрович',
-  'phone': '+79217982387',
-  'messages': null,
-  'message': null,
-  'tg': '108049067'
 }]
+
+export const email = [
+  {
+    'id': 'eccdfcac-46c5-4de3-9078-a4284de393d4',
+    'email': 'xdimedrolx@aol.com',
+    'fullname': 'ВЕРИЖНИКОВ Дмитрий Игоревич',
+    'phone': '+79530291301',
+    'messages': null,
+    'message': null,
+    'tg': '39129'
+  }, {
+    'id': '51549b69-4872-448e-91e2-d2d48184892f',
+    'email': 'thevadeem@gmail.com',
+    'fullname': 'Кочергин Вадим Александрович',
+    'phone': '+79217982387',
+    'messages': null,
+    'message': null,
+    'tg': '108049067'
+  }
+]
+
+export default {
+  tg, email
+}
