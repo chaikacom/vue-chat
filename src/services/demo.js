@@ -35,7 +35,7 @@ export default class Demo extends Service {
     })
   }
 
-  sendMessage (message) {
+  sendMessage (contact, channel, model) {
     return new Promise((resolve, reject) => {
       setTimeout(() => resolve('ok!'), 500)
     })

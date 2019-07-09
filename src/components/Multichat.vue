@@ -149,7 +149,7 @@ export default {
     },
 
     submit (model) {
-      this.service.sendMessage().then(() => {
+      this.service.sendMessage(this.contact, this.channel, model).then(() => {
         this.messages.push(model)
         this.$refs.chat.scrollEnd()
       })
