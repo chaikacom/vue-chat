@@ -4,7 +4,7 @@ export default class Search extends Model {
   defaults () {
     return {
       query: null,
-      filters: [{ id: 'c', label: 'Contact' }, { id: 'm', label: 'Message' }],
+      filters: null,
       filter: null
     }
   }

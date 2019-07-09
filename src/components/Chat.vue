@@ -3,7 +3,7 @@
     <div class="chat__menu">
       <div class="chat__alert">
         <div class="alert">
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cupiditate, sequi?
+          <slot name="top"></slot>
         </div>
       </div>
     </div>

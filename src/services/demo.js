@@ -14,15 +14,23 @@ export default class Demo extends Service {
   getContacts (channel) {
     return new Promise((resolve, reject) => {
       import(/* webpackChunkName: 'contacts' */ '../data/users')
-        .then(users => resolve(users.default[channel]))
+        .then(users => {
+          setTimeout(() => {
+            resolve(users.default[channel])
+          }, 500)
+        })
         .catch(err => reject(err))
     })
   }
 
-  getMessages (contact) {
+  getMessages (channel, contact) {
     return new Promise((resolve, reject) => {
       import(/* webpackChunkName: 'messages' */ '../data/messages/' + contact.id)
-        .then(messages => resolve(messages.default))
+        .then(messages => {
+          setTimeout(() => {
+            resolve(messages.default)
+          }, 500)
+        })
         .catch(err => reject(err))
     })
   }
@@ -39,6 +47,14 @@ export default class Demo extends Service {
         { id: 'tg', icon: 'paper-plane', label: 'Telegram' },
         { id: 'email', icon: 'envelope', label: 'E-mail' }
       ]), 500)
+    })
+  }
+
+  getFilters () {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        resolve([ { id: 'email', label: 'E-mail' }, { id: 'phone', label: 'Phone' } ])
+      }, 0)
     })
   }
 }

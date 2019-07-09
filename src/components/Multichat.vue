@@ -19,6 +19,12 @@
         v-model="contact">
       </contacts>
       <preloader v-if="loading.contacts">Загрузка...</preloader>
+      <preloader v-if="loading.search">Загрузка...</preloader>
+
+      <div v-if="notFound" class="multichat__aside-inner">
+        Ничего не найдено
+      </div>
+
     </div>
 
     <chat class="multichat__main multichat__chat"
@@ -27,7 +33,11 @@
           :messages="messages"
           :message="message"
           @input="message = $event"
-          @submit="submit"></chat>
+          @submit="submit">
+      <template slot="top">
+        <preloader v-if="this.busy">Загрузка...</preloader>
+      </template>
+    </chat>
   </div>
 </template>
 
@@ -68,11 +78,21 @@ export default {
       return {
         'multichat--disabled': this.busy
       }
+    },
+
+    notFound () {
+      return this.search.query && !this.hasContacts && !this.busy
+    },
+
+    hasContacts () {
+      return this.contacts && this.contacts.length
     }
   },
 
   watch: {
     channel (value) {
+      this.contacts = null
+      this.contact = null
       this.getContacts()
     },
 
@@ -84,6 +104,8 @@ export default {
     },
 
     search (options) {
+      this.contact = null
+      this.contacts = null
       if (!options.query) {
         this.getContacts()
       } else {
@@ -92,19 +114,31 @@ export default {
     }
   },
 
+  created () {
+    this.getFilters()
+  },
+
   mounted () {
     this.getChannels()
   },
 
   methods: {
+    getFilters () {
+      this.service.getFilters().then(filters => (this.search.filters = filters))
+    },
+
     find (options) {
       this.busy = true
+      this.loading.search = true
       this.service.search(options)
         .then(results => {
           this.contact = null
           this.contacts = results
         })
-        .finally(() => (this.busy = false))
+        .finally(() => {
+          this.busy = false
+          this.loading.search = false
+        })
     },
 
     getChannels () {
@@ -186,18 +220,36 @@ export default {
 
   .multichat__channels {
     display: flex;
+    border-bottom: 1px solid $border-color;
     & > * {
+      border-left: 1px solid $border-color;
       flex: 1 1 auto;
       display: block;
+      &:first-child {
+        border-left: 0;
+      }
     }
   }
 
   .multichat__channel-button {
+    @include button-reset;
     display: block;
     width: 100%;
+    padding: 10px;
+    outline: none;
+
+    &:hover {
+      color: $color-green;
+    }
 
     &.is-active {
+      color: #fff;
       background: $color-green;
+    }
+
+    &:focus {
+      color: inherit;
+      background: rgba($color-green, 0.5);
     }
   }
 </style>

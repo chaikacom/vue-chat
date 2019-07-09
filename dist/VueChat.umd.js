@@ -20624,15 +20624,12 @@ if (typeof window !== 'undefined') {
 // Indicate to webpack that this file can be concatenated
 /* harmony default export */ var setPublicPath = (null);
 
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"96c797cc-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/Multichat.vue?vue&type=template&id=34ab361e&
-var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"multichat",class:_vm.classList},[_c('div',{staticClass:"multichat__aside"},[(_vm.channels && _vm.channels.length)?_c('ul',{staticClass:"multichat__channels"},_vm._l((_vm.channels),function(item){return _c('li',{key:item.id,staticClass:"multichat__channel"},[_c('button',{staticClass:"multichat__channel-button",class:{ 'is-active': _vm.channel === item.id  },attrs:{"type":"button"},on:{"click":function($event){_vm.channel = item.id}}},[_vm._v("\n          "+_vm._s(item.label)+"\n        ")])])}),0):_vm._e(),_c('search',{model:{value:(_vm.search),callback:function ($$v) {_vm.search=$$v},expression:"search"}}),_c('contacts',{ref:"contacts",staticClass:"multichat__contacts",attrs:{"contacts":_vm.contacts},model:{value:(_vm.contact),callback:function ($$v) {_vm.contact=$$v},expression:"contact"}}),(_vm.loading.contacts)?_c('preloader',[_vm._v("Загрузка...")]):_vm._e()],1),(_vm.contact)?_c('chat',{ref:"chat",staticClass:"multichat__main multichat__chat",attrs:{"messages":_vm.messages,"message":_vm.message},on:{"input":function($event){_vm.message = $event},"submit":_vm.submit}}):_vm._e()],1)}
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"96c797cc-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/Multichat.vue?vue&type=template&id=bbdbb19e&
+var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"multichat",class:_vm.classList},[_c('div',{staticClass:"multichat__aside"},[(_vm.channels && _vm.channels.length)?_c('ul',{staticClass:"multichat__channels"},_vm._l((_vm.channels),function(item){return _c('li',{key:item.id,staticClass:"multichat__channel"},[_c('button',{staticClass:"multichat__channel-button",class:{ 'is-active': _vm.channel === item.id  },attrs:{"type":"button"},on:{"click":function($event){_vm.channel = item.id}}},[_vm._v("\n          "+_vm._s(item.label)+"\n        ")])])}),0):_vm._e(),_c('search',{model:{value:(_vm.search),callback:function ($$v) {_vm.search=$$v},expression:"search"}}),_c('contacts',{ref:"contacts",staticClass:"multichat__contacts",attrs:{"contacts":_vm.contacts},model:{value:(_vm.contact),callback:function ($$v) {_vm.contact=$$v},expression:"contact"}}),(_vm.loading.contacts)?_c('preloader',[_vm._v("Загрузка...")]):_vm._e(),(_vm.loading.search)?_c('preloader',[_vm._v("Загрузка...")]):_vm._e(),(_vm.notFound)?_c('div',{staticClass:"multichat__aside-inner"},[_vm._v("\n      Ничего не найдено\n    ")]):_vm._e()],1),(_vm.contact)?_c('chat',{ref:"chat",staticClass:"multichat__main multichat__chat",attrs:{"messages":_vm.messages,"message":_vm.message},on:{"input":function($event){_vm.message = $event},"submit":_vm.submit}},[_c('template',{slot:"top"},[(this.busy)?_c('preloader',[_vm._v("Загрузка...")]):_vm._e()],1)],2):_vm._e()],1)}
 var staticRenderFns = []
 
 
-// CONCATENATED MODULE: ./src/components/Multichat.vue?vue&type=template&id=34ab361e&
-
-// EXTERNAL MODULE: ./node_modules/core-js/modules/es6.regexp.search.js
-var es6_regexp_search = __webpack_require__("386d");
+// CONCATENATED MODULE: ./src/components/Multichat.vue?vue&type=template&id=bbdbb19e&
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es7.promise.finally.js
 var es7_promise_finally = __webpack_require__("097d");
@@ -20640,12 +20637,15 @@ var es7_promise_finally = __webpack_require__("097d");
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es6.array.find.js
 var es6_array_find = __webpack_require__("7514");
 
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"96c797cc-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/Chat.vue?vue&type=template&id=05581328&
-var Chatvue_type_template_id_05581328_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"chat"},[_vm._m(0),_c('div',{staticClass:"chat__messages"},[(_vm.hasMessages)?_c('messages',{attrs:{"messages":_vm.messages}}):_vm._e()],1),_c('form',{staticClass:"chat__form",on:{"submit":function($event){$event.preventDefault();return _vm.submit($event)}}},[_c('div',{staticClass:"field"},[_c('textarea',{directives:[{name:"model",rawName:"v-model",value:(_vm.msg),expression:"msg"},{name:"autosize",rawName:"v-autosize"}],staticClass:"chat__form-textarea",attrs:{"cols":"30","rows":"1"},domProps:{"value":(_vm.msg)},on:{"input":function($event){if($event.target.composing){ return; }_vm.msg=$event.target.value}}})]),_vm._m(1)])])}
-var Chatvue_type_template_id_05581328_staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"chat__menu"},[_c('div',{staticClass:"chat__alert"},[_c('div',{staticClass:"alert"},[_vm._v("\n        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cupiditate, sequi?\n      ")])])])},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"field"},[_c('button',{staticClass:"button",attrs:{"type":"submit"}},[_vm._v("\n        Submit\n      ")])])}]
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es6.regexp.search.js
+var es6_regexp_search = __webpack_require__("386d");
+
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"96c797cc-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/Chat.vue?vue&type=template&id=45403315&
+var Chatvue_type_template_id_45403315_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"chat"},[_c('div',{staticClass:"chat__menu"},[_c('div',{staticClass:"chat__alert"},[_c('div',{staticClass:"alert"},[_vm._t("top")],2)])]),_c('div',{staticClass:"chat__messages"},[(_vm.hasMessages)?_c('messages',{attrs:{"messages":_vm.messages}}):_vm._e()],1),_c('form',{staticClass:"chat__form",on:{"submit":function($event){$event.preventDefault();return _vm.submit($event)}}},[_c('div',{staticClass:"field"},[_c('textarea',{directives:[{name:"model",rawName:"v-model",value:(_vm.msg),expression:"msg"},{name:"autosize",rawName:"v-autosize"}],staticClass:"chat__form-textarea",attrs:{"cols":"30","rows":"1"},domProps:{"value":(_vm.msg)},on:{"input":function($event){if($event.target.composing){ return; }_vm.msg=$event.target.value}}})]),_vm._m(0)])])}
+var Chatvue_type_template_id_45403315_staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"field"},[_c('button',{staticClass:"button",attrs:{"type":"submit"}},[_vm._v("\n        Submit\n      ")])])}]
 
 
-// CONCATENATED MODULE: ./src/components/Chat.vue?vue&type=template&id=05581328&
+// CONCATENATED MODULE: ./src/components/Chat.vue?vue&type=template&id=45403315&
 
 // CONCATENATED MODULE: ./node_modules/@babel/runtime-corejs2/helpers/esm/classCallCheck.js
 function _classCallCheck(instance, Constructor) {
@@ -21249,8 +21249,8 @@ var Chatvue_type_style_index_0_lang_scss_ = __webpack_require__("44b9");
 
 var Chat_component = normalizeComponent(
   components_Chatvue_type_script_lang_js_,
-  Chatvue_type_template_id_05581328_render,
-  Chatvue_type_template_id_05581328_staticRenderFns,
+  Chatvue_type_template_id_45403315_render,
+  Chatvue_type_template_id_45403315_staticRenderFns,
   false,
   null,
   null,
@@ -21472,12 +21472,12 @@ var Preloader_component = normalizeComponent(
 )
 
 /* harmony default export */ var Preloader = (Preloader_component.exports);
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"96c797cc-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/Search.vue?vue&type=template&id=4d9cab90&
-var Searchvue_type_template_id_4d9cab90_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"search"},[_c('searchbar',{staticClass:"search__searchbar",model:{value:(_vm.query),callback:function ($$v) {_vm.query=$$v},expression:"query"}}),(_vm.query)?_c('ul',{staticClass:"search__filters"},_vm._l((_vm.search.filters),function(filter){return _c('li',{key:filter.id,staticClass:"search__filters-item"},[_c('label',[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.filterValue),expression:"filterValue"}],attrs:{"type":"radio","name":"filter"},domProps:{"value":filter.id,"checked":_vm._q(_vm.filterValue,filter.id)},on:{"change":function($event){_vm.filterValue=filter.id}}}),_c('span',[_vm._v(_vm._s(filter.label))])])])}),0):_vm._e()],1)}
-var Searchvue_type_template_id_4d9cab90_staticRenderFns = []
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"96c797cc-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/Search.vue?vue&type=template&id=73f0c450&
+var Searchvue_type_template_id_73f0c450_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"search"},[_c('searchbar',{staticClass:"search__searchbar",model:{value:(_vm.query),callback:function ($$v) {_vm.query=$$v},expression:"query"}}),(_vm.search.filters && _vm.search.filters.length && _vm.query)?_c('ul',{staticClass:"search__filters"},_vm._l((_vm.search.filters),function(filter){return _c('li',{key:filter.id,staticClass:"search__filters-item"},[_c('label',[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.filterValue),expression:"filterValue"}],attrs:{"type":"radio","name":"filter"},domProps:{"value":filter.id,"checked":_vm._q(_vm.filterValue,filter.id)},on:{"change":function($event){_vm.filterValue=filter.id}}}),_c('span',[_vm._v(_vm._s(filter.label))])])])}),0):_vm._e()],1)}
+var Searchvue_type_template_id_73f0c450_staticRenderFns = []
 
 
-// CONCATENATED MODULE: ./src/components/Search.vue?vue&type=template&id=4d9cab90&
+// CONCATENATED MODULE: ./src/components/Search.vue?vue&type=template&id=73f0c450&
 
 // CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"96c797cc-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/Searchbar.vue?vue&type=template&id=b7062da2&
 var Searchbarvue_type_template_id_b7062da2_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.query),expression:"query"}],staticClass:"searchbar",attrs:{"type":"text"},domProps:{"value":(_vm.query)},on:{"input":function($event){if($event.target.composing){ return; }_vm.query=$event.target.value}}})}
@@ -21638,8 +21638,8 @@ var Searchvue_type_style_index_0_lang_scss_ = __webpack_require__("e589");
 
 var Search_component = normalizeComponent(
   components_Searchvue_type_script_lang_js_,
-  Searchvue_type_template_id_4d9cab90_render,
-  Searchvue_type_template_id_4d9cab90_staticRenderFns,
+  Searchvue_type_template_id_73f0c450_render,
+  Searchvue_type_template_id_73f0c450_staticRenderFns,
   false,
   null,
   null,
@@ -21672,13 +21672,7 @@ function (_Model) {
     value: function defaults() {
       return {
         query: null,
-        filters: [{
-          id: 'c',
-          label: 'Contact'
-        }, {
-          id: 'm',
-          label: 'Message'
-        }],
+        filters: null,
         filter: null
       };
     }
@@ -21692,6 +21686,16 @@ function (_Model) {
 
 
 
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -21766,10 +21770,18 @@ function (_Model) {
       return {
         'multichat--disabled': this.busy
       };
+    },
+    notFound: function notFound() {
+      return this.search.query && !this.hasContacts && !this.busy;
+    },
+    hasContacts: function hasContacts() {
+      return this.contacts && this.contacts.length;
     }
   },
   watch: {
     channel: function channel(value) {
+      this.contacts = null;
+      this.contact = null;
       this.getContacts();
     },
     contact: function contact(value) {
@@ -21779,6 +21791,9 @@ function (_Model) {
       this.getMessages(value);
     },
     search: function search(options) {
+      this.contact = null;
+      this.contacts = null;
+
       if (!options.query) {
         this.getContacts();
       } else {
@@ -21786,66 +21801,78 @@ function (_Model) {
       }
     }
   },
+  created: function created() {
+    this.getFilters();
+  },
   mounted: function mounted() {
     this.getChannels();
   },
   methods: {
-    find: function find(options) {
+    getFilters: function getFilters() {
       var _this = this;
 
-      this.busy = true;
-      this.service.search(options).then(function (results) {
-        _this.contact = null;
-        _this.contacts = results;
-      }).finally(function () {
-        return _this.busy = false;
+      this.service.getFilters().then(function (filters) {
+        return _this.search.filters = filters;
       });
     },
-    getChannels: function getChannels() {
+    find: function find(options) {
       var _this2 = this;
 
       this.busy = true;
-      this.service.getChannels().then(function (channels) {
-        return _this2.channels = channels;
+      this.loading.search = true;
+      this.service.search(options).then(function (results) {
+        _this2.contact = null;
+        _this2.contacts = results;
       }).finally(function () {
-        return _this2.busy = false;
+        _this2.busy = false;
+        _this2.loading.search = false;
+      });
+    },
+    getChannels: function getChannels() {
+      var _this3 = this;
+
+      this.busy = true;
+      this.service.getChannels().then(function (channels) {
+        return _this3.channels = channels;
+      }).finally(function () {
+        return _this3.busy = false;
       });
     },
     submit: function submit(model) {
-      var _this3 = this;
+      var _this4 = this;
 
       this.service.sendMessage().then(function () {
-        _this3.messages.push(model);
+        _this4.messages.push(model);
 
-        _this3.$refs.chat.scrollEnd();
+        _this4.$refs.chat.scrollEnd();
       });
     },
     getContacts: function getContacts() {
-      var _this4 = this;
+      var _this5 = this;
 
       this.loading.contacts = true;
       this.busy = true;
       return this.service.getContacts(this.channel).then(function (contacts) {
-        return _this4.contacts = contacts;
+        return _this5.contacts = contacts;
       }).finally(function () {
-        _this4.busy = false;
-        _this4.loading.contacts = false;
+        _this5.busy = false;
+        _this5.loading.contacts = false;
       });
     },
     getMessages: function getMessages() {
-      var _this5 = this;
+      var _this6 = this;
 
       this.busy = true;
       return this.service.getMessages(this.channel, this.contact).then(function (messages) {
-        _this5.messages = messages;
+        _this6.messages = messages;
 
-        _this5.$refs.chat.scrollEnd();
+        _this6.$refs.chat.scrollEnd();
       }).catch(function (err) {
         console.warn(err);
-        _this5.message = null;
-        _this5.messages = null;
+        _this6.message = null;
+        _this6.messages = null;
       }).finally(function () {
-        return _this5.busy = false;
+        return _this6.busy = false;
       });
     }
   }

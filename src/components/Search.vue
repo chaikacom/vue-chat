@@ -1,7 +1,7 @@
 <template>
   <div class="search">
     <searchbar v-model="query" class="search__searchbar"></searchbar>
-    <ul class="search__filters" v-if="query">
+    <ul class="search__filters" v-if="search.filters && search.filters.length && query">
       <li class="search__filters-item" :key="filter.id" v-for="filter in search.filters">
         <label>
           <input type="radio" name="filter" v-model="filterValue" :value="filter.id">

@@ -14,4 +14,8 @@ export default class Service {
   getChannels () {
     throw new Error('method is not defined')
   }
+
+  getFilters () {
+    throw new Error('method is not defined')
+  }
 }
