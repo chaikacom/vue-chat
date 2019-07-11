@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <multichat :service="service"></multichat>
+    <multichat :service="service" :allow-refresh="true" :refresh-interval="5000"></multichat>
   </div>
 </template>
 

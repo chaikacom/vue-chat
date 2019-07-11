@@ -8,7 +8,8 @@ export default class Chat extends Model {
       fullname: null,
       phone: null,
       messages: null,
-      message: null
+      message: null,
+      counter: null
     }
   }
 }

@@ -15,14 +15,14 @@
                       <!--01/12/18-->
                     <!--</div>-->
                   </div>
-                  <!--<div class="contacts__list-item-message">-->
+                  <div class="contacts__list-item-message">
                     <!--<div class="contacts__list-item-message-text">-->
                       <!--Самое свежее сообщение в этом чатике-->
                     <!--</div>-->
-                    <!--<div class="contacts__list-item-message-counter">-->
-                      <!--7-->
-                    <!--</div>-->
-                  <!--</div>-->
+                    <div class="contacts__list-item-message-counter" v-show="contact.counter">
+                      {{ contact.counter }}
+                    </div>
+                  </div>
                 </slot>
             </li>
         </ul>
@@ -121,7 +121,7 @@ export default {
       line-height: 25px;
       border-radius: 50%;
       transform: translateY(-5px);
-      margin-left: 10px;
+      margin-left: auto;
       color: #fff;
 
       .contacts__list-item.is-active & {
@@ -136,6 +136,7 @@ export default {
       white-space: nowrap;
       text-overflow: ellipsis;
       overflow: hidden;
+      margin-right: 10px;
 
       .contacts__list-item.is-active & {
         opacity: 1;

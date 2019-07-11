@@ -61,7 +61,9 @@ export default {
   components: { Chat, Contacts, Preloader, Search },
 
   props: {
-    service: { type: Object, default: () => ({}) }
+    service: { type: Object, default: () => ({}) },
+    allowRefresh: { type: Boolean, default: true },
+    refreshInterval: { type: Number, default: 5000 }
   },
 
   data () {
@@ -132,9 +134,41 @@ export default {
 
   mounted () {
     this.getChannels()
+
+    if (this.allowRefresh) {
+      setInterval(() => {
+        this.refresh()
+      }, this.refreshInterval)
+    }
   },
 
   methods: {
+    refresh () {
+      if (!this.channel) return
+      const id = this.contact ? this.contact.id : null
+      const channel = this.channel
+
+      this.service
+        .refresh(this.channel, id)
+        .then(response => {
+          if (this.contact && (this.contact.id === id)) this.appendMessages(response.messages)
+          if (this.channel === channel) this.refreshAlerts(response.alerts)
+        })
+    },
+
+    appendMessages (messages) {
+      this.messages = (this.messages || []).concat(messages)
+    },
+
+    refreshAlerts (alerts) {
+      const ids = alerts.map(alert => alert.id)
+      const contacts = this.contacts.filter(contact => (ids.indexOf(contact.id) > -1))
+      contacts.forEach(contact => {
+        const counter = alerts.find(alert => alert.id === contact.id)
+        contact.counter = counter.counter
+      })
+    },
+
     getFilters () {
       this.service.getFilters().then(filters => (this.search.filters = filters))
     },
@@ -187,6 +221,7 @@ export default {
         .then(messages => {
           this.messages = messages
           this.$refs.chat.scrollEnd()
+          this.contact.counter = 0
         })
         .catch(err => {
           console.warn(err)
