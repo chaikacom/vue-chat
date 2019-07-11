@@ -153,7 +153,14 @@ export default {
         .then(response => {
           if (this.contact && (this.contact.id === id)) this.appendMessages(response.messages)
           if (this.channel === channel) this.refreshAlerts(response.alerts)
+          this.contacts = this.contacts ? this.sortContactsByUnread(this.contacts) : this.contacts
         })
+    },
+
+    sortContactsByUnread (contacts) {
+      return contacts.sort(contact => {
+        return contact.counter > 0 ? -1 : 0
+      })
     },
 
     appendMessages (messages) {
