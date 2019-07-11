@@ -423,6 +423,83 @@ setToStringTag(global.JSON, 'JSON', true);
 
 /***/ }),
 
+/***/ "01f9":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var LIBRARY = __webpack_require__("2d00");
+var $export = __webpack_require__("5ca1");
+var redefine = __webpack_require__("2aba");
+var hide = __webpack_require__("32e9");
+var Iterators = __webpack_require__("84f2");
+var $iterCreate = __webpack_require__("41a0");
+var setToStringTag = __webpack_require__("7f20");
+var getPrototypeOf = __webpack_require__("38fd");
+var ITERATOR = __webpack_require__("2b4c")('iterator');
+var BUGGY = !([].keys && 'next' in [].keys()); // Safari has buggy iterators w/o `next`
+var FF_ITERATOR = '@@iterator';
+var KEYS = 'keys';
+var VALUES = 'values';
+
+var returnThis = function () { return this; };
+
+module.exports = function (Base, NAME, Constructor, next, DEFAULT, IS_SET, FORCED) {
+  $iterCreate(Constructor, NAME, next);
+  var getMethod = function (kind) {
+    if (!BUGGY && kind in proto) return proto[kind];
+    switch (kind) {
+      case KEYS: return function keys() { return new Constructor(this, kind); };
+      case VALUES: return function values() { return new Constructor(this, kind); };
+    } return function entries() { return new Constructor(this, kind); };
+  };
+  var TAG = NAME + ' Iterator';
+  var DEF_VALUES = DEFAULT == VALUES;
+  var VALUES_BUG = false;
+  var proto = Base.prototype;
+  var $native = proto[ITERATOR] || proto[FF_ITERATOR] || DEFAULT && proto[DEFAULT];
+  var $default = $native || getMethod(DEFAULT);
+  var $entries = DEFAULT ? !DEF_VALUES ? $default : getMethod('entries') : undefined;
+  var $anyNative = NAME == 'Array' ? proto.entries || $native : $native;
+  var methods, key, IteratorPrototype;
+  // Fix native
+  if ($anyNative) {
+    IteratorPrototype = getPrototypeOf($anyNative.call(new Base()));
+    if (IteratorPrototype !== Object.prototype && IteratorPrototype.next) {
+      // Set @@toStringTag to native iterators
+      setToStringTag(IteratorPrototype, TAG, true);
+      // fix for some old engines
+      if (!LIBRARY && typeof IteratorPrototype[ITERATOR] != 'function') hide(IteratorPrototype, ITERATOR, returnThis);
+    }
+  }
+  // fix Array#{values, @@iterator}.name in V8 / FF
+  if (DEF_VALUES && $native && $native.name !== VALUES) {
+    VALUES_BUG = true;
+    $default = function values() { return $native.call(this); };
+  }
+  // Define iterator
+  if ((!LIBRARY || FORCED) && (BUGGY || VALUES_BUG || !proto[ITERATOR])) {
+    hide(proto, ITERATOR, $default);
+  }
+  // Plug for library
+  Iterators[NAME] = $default;
+  Iterators[TAG] = returnThis;
+  if (DEFAULT) {
+    methods = {
+      values: DEF_VALUES ? $default : getMethod(VALUES),
+      keys: IS_SET ? $default : getMethod(KEYS),
+      entries: $entries
+    };
+    if (FORCED) for (key in methods) {
+      if (!(key in proto)) redefine(proto, key, methods[key]);
+    } else $export($export.P + $export.F * (BUGGY || VALUES_BUG), NAME, methods);
+  }
+  return methods;
+};
+
+
+/***/ }),
+
 /***/ "0293":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -3995,6 +4072,23 @@ module.exports = function (it) {
 
 /***/ }),
 
+/***/ "2f21":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var fails = __webpack_require__("79e5");
+
+module.exports = function (method, arg) {
+  return !!method && fails(function () {
+    // eslint-disable-next-line no-useless-call
+    arg ? method.call(null, function () { /* empty */ }, 1) : method.call(null);
+  });
+};
+
+
+/***/ }),
+
 /***/ "30f1":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -4247,6 +4341,26 @@ __webpack_require__("214f")('search', 1, function (defined, SEARCH, $search, may
     return enCa;
 
 })));
+
+
+/***/ }),
+
+/***/ "38fd":
+/***/ (function(module, exports, __webpack_require__) {
+
+// 19.1.2.9 / 15.2.3.2 Object.getPrototypeOf(O)
+var has = __webpack_require__("69a8");
+var toObject = __webpack_require__("4bf8");
+var IE_PROTO = __webpack_require__("613b")('IE_PROTO');
+var ObjectProto = Object.prototype;
+
+module.exports = Object.getPrototypeOf || function (O) {
+  O = toObject(O);
+  if (has(O, IE_PROTO)) return O[IE_PROTO];
+  if (typeof O.constructor == 'function' && O instanceof O.constructor) {
+    return O.constructor.prototype;
+  } return O instanceof Object ? ObjectProto : null;
+};
 
 
 /***/ }),
@@ -5188,6 +5302,27 @@ module.exports = function (it) {
     return kn;
 
 })));
+
+
+/***/ }),
+
+/***/ "41a0":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var create = __webpack_require__("2aeb");
+var descriptor = __webpack_require__("4630");
+var setToStringTag = __webpack_require__("7f20");
+var IteratorPrototype = {};
+
+// 25.1.2.1.1 %IteratorPrototype%[@@iterator]()
+__webpack_require__("32e9")(IteratorPrototype, __webpack_require__("2b4c")('iterator'), function () { return this; });
+
+module.exports = function (Constructor, NAME, next) {
+  Constructor.prototype = create(IteratorPrototype, { next: descriptor(1, next) });
+  setToStringTag(Constructor, NAME + ' Iterator');
+};
 
 
 /***/ }),
@@ -6811,6 +6946,37 @@ module.exports = function (key) {
     return esUs;
 
 })));
+
+
+/***/ }),
+
+/***/ "55dd":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var $export = __webpack_require__("5ca1");
+var aFunction = __webpack_require__("d8e8");
+var toObject = __webpack_require__("4bf8");
+var fails = __webpack_require__("79e5");
+var $sort = [].sort;
+var test = [1, 2, 3];
+
+$export($export.P + $export.F * (fails(function () {
+  // IE8-
+  test.sort(undefined);
+}) || !fails(function () {
+  // V8 bug
+  test.sort(null);
+  // Old WebKit
+}) || !__webpack_require__("2f21")($sort)), 'Array', {
+  // 22.1.3.25 Array.prototype.sort(comparefn)
+  sort: function sort(comparefn) {
+    return comparefn === undefined
+      ? $sort.call(toObject(this))
+      : $sort.call(toObject(this), aFunction(comparefn));
+  }
+});
 
 
 /***/ }),
@@ -9432,6 +9598,20 @@ module.exports = __webpack_require__("8e60") ? Object.defineProperties : functio
 
 /***/ }),
 
+/***/ "7f20":
+/***/ (function(module, exports, __webpack_require__) {
+
+var def = __webpack_require__("86cc").f;
+var has = __webpack_require__("69a8");
+var TAG = __webpack_require__("2b4c")('toStringTag');
+
+module.exports = function (it, tag, stat) {
+  if (it && !has(it = stat ? it : it.prototype, TAG)) def(it, TAG, { configurable: true, value: tag });
+};
+
+
+/***/ }),
+
 /***/ "7f33":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -10047,6 +10227,14 @@ module.exports = function () { /* empty */ };
     return bg;
 
 })));
+
+
+/***/ }),
+
+/***/ "84f2":
+/***/ (function(module, exports) {
+
+module.exports = {};
 
 
 /***/ }),
@@ -12116,6 +12304,71 @@ var trim = exporter.trim = function (string, TYPE) {
 };
 
 module.exports = exporter;
+
+
+/***/ }),
+
+/***/ "ac6a":
+/***/ (function(module, exports, __webpack_require__) {
+
+var $iterators = __webpack_require__("cadf");
+var getKeys = __webpack_require__("0d58");
+var redefine = __webpack_require__("2aba");
+var global = __webpack_require__("7726");
+var hide = __webpack_require__("32e9");
+var Iterators = __webpack_require__("84f2");
+var wks = __webpack_require__("2b4c");
+var ITERATOR = wks('iterator');
+var TO_STRING_TAG = wks('toStringTag');
+var ArrayValues = Iterators.Array;
+
+var DOMIterables = {
+  CSSRuleList: true, // TODO: Not spec compliant, should be false.
+  CSSStyleDeclaration: false,
+  CSSValueList: false,
+  ClientRectList: false,
+  DOMRectList: false,
+  DOMStringList: false,
+  DOMTokenList: true,
+  DataTransferItemList: false,
+  FileList: false,
+  HTMLAllCollection: false,
+  HTMLCollection: false,
+  HTMLFormElement: false,
+  HTMLSelectElement: false,
+  MediaList: true, // TODO: Not spec compliant, should be false.
+  MimeTypeArray: false,
+  NamedNodeMap: false,
+  NodeList: true,
+  PaintRequestList: false,
+  Plugin: false,
+  PluginArray: false,
+  SVGLengthList: false,
+  SVGNumberList: false,
+  SVGPathSegList: false,
+  SVGPointList: false,
+  SVGStringList: false,
+  SVGTransformList: false,
+  SourceBufferList: false,
+  StyleSheetList: true, // TODO: Not spec compliant, should be false.
+  TextTrackCueList: false,
+  TextTrackList: false,
+  TouchList: false
+};
+
+for (var collections = getKeys(DOMIterables), i = 0; i < collections.length; i++) {
+  var NAME = collections[i];
+  var explicit = DOMIterables[NAME];
+  var Collection = global[NAME];
+  var proto = Collection && Collection.prototype;
+  var key;
+  if (proto) {
+    if (!proto[ITERATOR]) hide(proto, ITERATOR, ArrayValues);
+    if (!proto[TO_STRING_TAG]) hide(proto, TO_STRING_TAG, NAME);
+    Iterators[NAME] = ArrayValues;
+    if (explicit) for (key in $iterators) if (!proto[key]) redefine(proto, key, $iterators[key], true);
+  }
+}
 
 
 /***/ }),
@@ -18066,6 +18319,48 @@ module.exports = function (key) {
 
 /***/ }),
 
+/***/ "cadf":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var addToUnscopables = __webpack_require__("9c6c");
+var step = __webpack_require__("d53b");
+var Iterators = __webpack_require__("84f2");
+var toIObject = __webpack_require__("6821");
+
+// 22.1.3.4 Array.prototype.entries()
+// 22.1.3.13 Array.prototype.keys()
+// 22.1.3.29 Array.prototype.values()
+// 22.1.3.30 Array.prototype[@@iterator]()
+module.exports = __webpack_require__("01f9")(Array, 'Array', function (iterated, kind) {
+  this._t = toIObject(iterated); // target
+  this._i = 0;                   // next index
+  this._k = kind;                // kind
+// 22.1.5.2.1 %ArrayIteratorPrototype%.next()
+}, function () {
+  var O = this._t;
+  var kind = this._k;
+  var index = this._i++;
+  if (!O || index >= O.length) {
+    this._t = undefined;
+    return step(1);
+  }
+  if (kind == 'keys') return step(0, index);
+  if (kind == 'values') return step(0, O[index]);
+  return step(0, [index, O[index]]);
+}, 'values');
+
+// argumentsList[@@iterator] is %ArrayProto_values% (9.4.4.6, 9.4.4.7)
+Iterators.Arguments = Iterators.Array;
+
+addToUnscopables('keys');
+addToUnscopables('values');
+addToUnscopables('entries');
+
+
+/***/ }),
+
 /***/ "cb7c":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -18740,6 +19035,16 @@ module.exports = function (KEY, exec) {
 
 module.exports = function (it) {
   return typeof it === 'object' ? it !== null : typeof it === 'function';
+};
+
+
+/***/ }),
+
+/***/ "d53b":
+/***/ (function(module, exports) {
+
+module.exports = function (done, value) {
+  return { value: value, done: !!done };
 };
 
 
@@ -20624,21 +20929,30 @@ if (typeof window !== 'undefined') {
 // Indicate to webpack that this file can be concatenated
 /* harmony default export */ var setPublicPath = (null);
 
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"96c797cc-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/Multichat.vue?vue&type=template&id=9c4ad0f6&
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"96c797cc-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/Multichat.vue?vue&type=template&id=f4e408ac&
 var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"multichat",class:_vm.classList},[_c('div',{staticClass:"multichat__aside"},[(_vm.channels && _vm.channels.length)?_c('ul',{staticClass:"multichat__channels"},_vm._l((_vm.channels),function(item){return _c('li',{key:item.id,staticClass:"multichat__channel"},[_c('button',{staticClass:"multichat__channel-button",class:{ 'is-active': _vm.channel === item.id  },attrs:{"type":"button"},on:{"click":function($event){_vm.channel = item.id}}},[_vm._v("\n          "+_vm._s(item.label)+"\n        ")])])}),0):_vm._e(),_c('search',{model:{value:(_vm.search),callback:function ($$v) {_vm.search=$$v},expression:"search"}}),_c('contacts',{ref:"contacts",staticClass:"multichat__contacts",attrs:{"contacts":_vm.contacts},model:{value:(_vm.contact),callback:function ($$v) {_vm.contact=$$v},expression:"contact"}}),(_vm.loading.contacts)?_c('preloader',[_vm._v("Загрузка...")]):_vm._e(),(_vm.loading.search)?_c('preloader',[_vm._v("Загрузка...")]):_vm._e(),(_vm.notFound)?_c('div',{staticClass:"multichat__aside-inner"},[_vm._v("\n      Ничего не найдено\n    ")]):_vm._e()],1),(_vm.contact)?_c('chat',{ref:"chat",staticClass:"multichat__main multichat__chat",attrs:{"messages":_vm.messages,"message":_vm.message},on:{"input":function($event){_vm.message = $event},"submit":_vm.submit}},[_c('template',{slot:"top"},[(this.busy)?_c('preloader',[_vm._v("Загрузка...")]):_vm._e()],1)],2):_vm._e()],1)}
 var staticRenderFns = []
 
 
-// CONCATENATED MODULE: ./src/components/Multichat.vue?vue&type=template&id=9c4ad0f6&
+// CONCATENATED MODULE: ./src/components/Multichat.vue?vue&type=template&id=f4e408ac&
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es7.promise.finally.js
 var es7_promise_finally = __webpack_require__("097d");
+
+// EXTERNAL MODULE: ./node_modules/core-js/modules/web.dom.iterable.js
+var web_dom_iterable = __webpack_require__("ac6a");
+
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es6.array.sort.js
+var es6_array_sort = __webpack_require__("55dd");
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es6.array.find.js
 var es6_array_find = __webpack_require__("7514");
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es6.regexp.search.js
 var es6_regexp_search = __webpack_require__("386d");
+
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es6.number.constructor.js
+var es6_number_constructor = __webpack_require__("c5f6");
 
 // CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"96c797cc-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/Chat.vue?vue&type=template&id=45403315&
 var Chatvue_type_template_id_45403315_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"chat"},[_c('div',{staticClass:"chat__menu"},[_c('div',{staticClass:"chat__alert"},[_c('div',{staticClass:"alert"},[_vm._t("top")],2)])]),_c('div',{staticClass:"chat__messages"},[(_vm.hasMessages)?_c('messages',{attrs:{"messages":_vm.messages}}):_vm._e()],1),_c('form',{staticClass:"chat__form",on:{"submit":function($event){$event.preventDefault();return _vm.submit($event)}}},[_c('div',{staticClass:"field"},[_c('textarea',{directives:[{name:"model",rawName:"v-model",value:(_vm.msg),expression:"msg"},{name:"autosize",rawName:"v-autosize"}],staticClass:"chat__form-textarea",attrs:{"cols":"30","rows":"1"},domProps:{"value":(_vm.msg)},on:{"input":function($event){if($event.target.composing){ return; }_vm.msg=$event.target.value}}})]),_vm._m(0)])])}
@@ -21259,15 +21573,30 @@ var Chat_component = normalizeComponent(
 )
 
 /* harmony default export */ var Chat = (Chat_component.exports);
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"96c797cc-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/Contacts.vue?vue&type=template&id=b2878af6&
-var Contactsvue_type_template_id_b2878af6_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"contacts"},[(_vm.contacts)?_c('ul',{staticClass:"contacts__list"},_vm._l((_vm.contacts),function(contact,idx){return _c('li',{key:idx,staticClass:"contacts__list-item",class:{ 'is-active': _vm.isActiveContact(contact) },on:{"click":function($event){return _vm.select(contact)}}},[_vm._t("contact",[_vm._v("\n                "+_vm._s(contact.fullname)+"\n            ")],{"item":contact})],2)}),0):_vm._e()])}
-var Contactsvue_type_template_id_b2878af6_staticRenderFns = []
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"96c797cc-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/Contacts.vue?vue&type=template&id=02ca3bdb&
+var Contactsvue_type_template_id_02ca3bdb_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"contacts"},[(_vm.contacts)?_c('ul',{staticClass:"contacts__list"},_vm._l((_vm.contacts),function(contact,idx){return _c('li',{key:idx,staticClass:"contacts__list-item",class:{ 'is-active': _vm.isActiveContact(contact) },on:{"click":function($event){return _vm.select(contact)}}},[_vm._t("contact",[_c('div',{staticClass:"contacts__list-item-head"},[_c('div',{staticClass:"contacts__list-item-name"},[_vm._v("\n                  "+_vm._s(contact.fullname)+"\n                ")])]),_c('div',{staticClass:"contacts__list-item-message"},[_c('div',{directives:[{name:"show",rawName:"v-show",value:(contact.counter),expression:"contact.counter"}],staticClass:"contacts__list-item-message-counter"},[_vm._v("\n                  "+_vm._s(contact.counter)+"\n                ")])])],{"item":contact})],2)}),0):_vm._e()])}
+var Contactsvue_type_template_id_02ca3bdb_staticRenderFns = []
 
 
-// CONCATENATED MODULE: ./src/components/Contacts.vue?vue&type=template&id=b2878af6&
+// CONCATENATED MODULE: ./src/components/Contacts.vue?vue&type=template&id=02ca3bdb&
 
 // CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/Contacts.vue?vue&type=script&lang=js&
 
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -21328,8 +21657,8 @@ var Contactsvue_type_style_index_0_lang_scss_ = __webpack_require__("51ac");
 
 var Contacts_component = normalizeComponent(
   components_Contactsvue_type_script_lang_js_,
-  Contactsvue_type_template_id_b2878af6_render,
-  Contactsvue_type_template_id_b2878af6_staticRenderFns,
+  Contactsvue_type_template_id_02ca3bdb_render,
+  Contactsvue_type_template_id_02ca3bdb_staticRenderFns,
   false,
   null,
   null,
@@ -21485,9 +21814,6 @@ var Searchbarvue_type_template_id_b7062da2_staticRenderFns = []
 
 
 // CONCATENATED MODULE: ./src/components/Searchbar.vue?vue&type=template&id=b7062da2&
-
-// EXTERNAL MODULE: ./node_modules/core-js/modules/es6.number.constructor.js
-var es6_number_constructor = __webpack_require__("c5f6");
 
 // CONCATENATED MODULE: ./src/utils/debounce.js
 /* harmony default export */ var debounce = (function (callback) {
@@ -21686,6 +22012,9 @@ function (_Model) {
 
 
 
+
+
+
 //
 //
 //
@@ -21733,6 +22062,18 @@ function (_Model) {
 
 
 
+
+
+function storage(field, value) {
+  var prefix = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'multichat';
+  var key = "".concat(prefix, ".").concat(field);
+
+  if (!value) {
+    return localStorage.getItem(key);
+  } else {
+    localStorage.setItem(key, value);
+  }
+}
 
 /* harmony default export */ var Multichatvue_type_script_lang_js_ = ({
   components: {
@@ -21747,6 +22088,14 @@ function (_Model) {
       default: function _default() {
         return {};
       }
+    },
+    allowRefresh: {
+      type: Boolean,
+      default: true
+    },
+    refreshInterval: {
+      type: Number,
+      default: 5000
     }
   },
   data: function data() {
@@ -21783,12 +22132,14 @@ function (_Model) {
       this.contacts = null;
       this.contact = null;
       this.getContacts();
+      storage('channel', value);
     },
     contact: function contact(value) {
       this.messages = null;
       this.message = null;
       if (!value) return;
       this.getMessages(value);
+      storage('contact', value.id);
     },
     search: function search(options) {
       this.contact = null;
@@ -21803,76 +22154,124 @@ function (_Model) {
   },
   created: function created() {
     this.getFilters();
+    this.channel = storage('channel');
   },
   mounted: function mounted() {
+    var _this = this;
+
     this.getChannels();
+
+    if (this.allowRefresh) {
+      setInterval(function () {
+        _this.refresh();
+      }, this.refreshInterval);
+    }
   },
   methods: {
+    refresh: function refresh() {
+      var _this2 = this;
+
+      if (!this.channel) return;
+      var id = this.contact ? this.contact.id : null;
+      var channel = this.channel;
+      this.service.refresh(this.channel, id).then(function (response) {
+        if (_this2.contact && _this2.contact.id === id) _this2.appendMessages(response.messages);
+        if (_this2.channel === channel) _this2.refreshAlerts(response.alerts);
+        _this2.contacts = _this2.contacts ? _this2.sortContactsByUnread(_this2.contacts) : _this2.contacts;
+      });
+    },
+    sortContactsByUnread: function sortContactsByUnread(contacts) {
+      return contacts.sort(function (contact) {
+        return contact.counter > 0 ? -1 : 0;
+      });
+    },
+    appendMessages: function appendMessages(messages) {
+      this.messages = (this.messages || []).concat(messages);
+    },
+    refreshAlerts: function refreshAlerts(alerts) {
+      var ids = alerts.map(function (alert) {
+        return alert.id;
+      });
+      var contacts = this.contacts.filter(function (contact) {
+        return ids.indexOf(contact.id) > -1;
+      });
+      contacts.forEach(function (contact) {
+        var counter = alerts.find(function (alert) {
+          return alert.id === contact.id;
+        });
+        contact.counter = counter.counter;
+      });
+    },
     getFilters: function getFilters() {
-      var _this = this;
+      var _this3 = this;
 
       this.service.getFilters().then(function (filters) {
-        return _this.search.filters = filters;
+        return _this3.search.filters = filters;
       });
     },
     find: function find(options) {
-      var _this2 = this;
+      var _this4 = this;
 
       this.busy = true;
       this.loading.search = true;
       this.service.search(options).then(function (results) {
-        _this2.contact = null;
-        _this2.contacts = results;
+        _this4.contact = null;
+        _this4.contacts = results;
       }).finally(function () {
-        _this2.busy = false;
-        _this2.loading.search = false;
+        _this4.busy = false;
+        _this4.loading.search = false;
       });
     },
     getChannels: function getChannels() {
-      var _this3 = this;
+      var _this5 = this;
 
       this.busy = true;
       this.service.getChannels().then(function (channels) {
-        return _this3.channels = channels;
+        return _this5.channels = channels;
       }).finally(function () {
-        return _this3.busy = false;
+        return _this5.busy = false;
       });
     },
     submit: function submit(model) {
-      var _this4 = this;
+      var _this6 = this;
 
       this.service.sendMessage(this.contact, this.channel, model).then(function () {
-        _this4.messages.push(model);
+        _this6.messages.push(model);
 
-        _this4.$refs.chat.scrollEnd();
+        _this6.$refs.chat.scrollEnd();
       });
     },
     getContacts: function getContacts() {
-      var _this5 = this;
+      var _this7 = this;
 
       this.loading.contacts = true;
       this.busy = true;
       return this.service.getContacts(this.channel).then(function (contacts) {
-        return _this5.contacts = contacts;
+        _this7.contacts = contacts;
+        _this7.contact = contacts.find(function (c) {
+          return c.id === storage('contact');
+        });
       }).finally(function () {
-        _this5.busy = false;
-        _this5.loading.contacts = false;
+        _this7.busy = false;
+        _this7.loading.contacts = false;
       });
     },
     getMessages: function getMessages() {
-      var _this6 = this;
+      var _this8 = this;
 
       this.busy = true;
       return this.service.getMessages(this.channel, this.contact).then(function (messages) {
-        _this6.messages = messages;
+        _this8.messages = messages;
 
-        _this6.$refs.chat.scrollEnd();
+        _this8.$refs.chat.scrollEnd();
+
+        _this8.contact.counter = 0;
       }).catch(function (err) {
         console.warn(err);
-        _this6.message = null;
-        _this6.messages = null;
+        _this8.message = null;
+        _this8.messages = null;
       }).finally(function () {
-        return _this6.busy = false;
+        return _this8.busy = false;
       });
     }
   }
