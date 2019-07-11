@@ -48,6 +48,15 @@ import Preloader from './Preloader.vue'
 import Search from './Search.vue'
 import SearchModel from './models/Search'
 
+function storage(field, value, prefix = 'multichat') {
+  const key = `${prefix}.${field}`
+  if(!value) {
+    return localStorage.getItem(key)
+  } else {
+    localStorage.setItem(key, value)
+  }
+}
+
 export default {
   components: { Chat, Contacts, Preloader, Search },
 
@@ -94,6 +103,7 @@ export default {
       this.contacts = null
       this.contact = null
       this.getContacts()
+      storage('channel', value)
     },
 
     contact (value) {
@@ -101,6 +111,7 @@ export default {
       this.message = null
       if (!value) return
       this.getMessages(value)
+      storage('contact', value.id)
     },
 
     search (options) {
@@ -116,6 +127,7 @@ export default {
 
   created () {
     this.getFilters()
+    this.channel = storage('channel')
   },
 
   mounted () {
@@ -159,7 +171,10 @@ export default {
       this.loading.contacts = true
       this.busy = true
       return this.service.getContacts(this.channel)
-        .then(contacts => (this.contacts = contacts))
+        .then(contacts => {
+          this.contacts = contacts
+          this.contact = contacts.find(c => (c.id === storage('contact')))
+        })
         .finally(() => {
           this.busy = false
           this.loading.contacts = false
