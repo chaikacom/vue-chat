@@ -20929,12 +20929,12 @@ if (typeof window !== 'undefined') {
 // Indicate to webpack that this file can be concatenated
 /* harmony default export */ var setPublicPath = (null);
 
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"96c797cc-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/Multichat.vue?vue&type=template&id=f4e408ac&
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"96c797cc-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/Multichat.vue?vue&type=template&id=2ac1838a&
 var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"multichat",class:_vm.classList},[_c('div',{staticClass:"multichat__aside"},[(_vm.channels && _vm.channels.length)?_c('ul',{staticClass:"multichat__channels"},_vm._l((_vm.channels),function(item){return _c('li',{key:item.id,staticClass:"multichat__channel"},[_c('button',{staticClass:"multichat__channel-button",class:{ 'is-active': _vm.channel === item.id  },attrs:{"type":"button"},on:{"click":function($event){_vm.channel = item.id}}},[_vm._v("\n          "+_vm._s(item.label)+"\n        ")])])}),0):_vm._e(),_c('search',{model:{value:(_vm.search),callback:function ($$v) {_vm.search=$$v},expression:"search"}}),_c('contacts',{ref:"contacts",staticClass:"multichat__contacts",attrs:{"contacts":_vm.contacts},model:{value:(_vm.contact),callback:function ($$v) {_vm.contact=$$v},expression:"contact"}}),(_vm.loading.contacts)?_c('preloader',[_vm._v("Загрузка...")]):_vm._e(),(_vm.loading.search)?_c('preloader',[_vm._v("Загрузка...")]):_vm._e(),(_vm.notFound)?_c('div',{staticClass:"multichat__aside-inner"},[_vm._v("\n      Ничего не найдено\n    ")]):_vm._e()],1),(_vm.contact)?_c('chat',{ref:"chat",staticClass:"multichat__main multichat__chat",attrs:{"messages":_vm.messages,"message":_vm.message},on:{"input":function($event){_vm.message = $event},"submit":_vm.submit}},[_c('template',{slot:"top"},[(this.busy)?_c('preloader',[_vm._v("Загрузка...")]):_vm._e()],1)],2):_vm._e()],1)}
 var staticRenderFns = []
 
 
-// CONCATENATED MODULE: ./src/components/Multichat.vue?vue&type=template&id=f4e408ac&
+// CONCATENATED MODULE: ./src/components/Multichat.vue?vue&type=template&id=2ac1838a&
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es7.promise.finally.js
 var es7_promise_finally = __webpack_require__("097d");
@@ -22187,8 +22187,11 @@ function storage(field, value) {
     },
     appendMessages: function appendMessages(messages) {
       this.messages = (this.messages || []).concat(messages);
+      this.$refs.chat.scrollEnd();
     },
     refreshAlerts: function refreshAlerts(alerts) {
+      var _this3 = this;
+
       var ids = alerts.map(function (alert) {
         return alert.id;
       });
@@ -22199,79 +22202,80 @@ function storage(field, value) {
         var counter = alerts.find(function (alert) {
           return alert.id === contact.id;
         });
+        if (contact.id === _this3.contact.id) return;
         contact.counter = counter.counter;
       });
     },
     getFilters: function getFilters() {
-      var _this3 = this;
+      var _this4 = this;
 
       this.service.getFilters().then(function (filters) {
-        return _this3.search.filters = filters;
+        return _this4.search.filters = filters;
       });
     },
     find: function find(options) {
-      var _this4 = this;
+      var _this5 = this;
 
       this.busy = true;
       this.loading.search = true;
       this.service.search(options).then(function (results) {
-        _this4.contact = null;
-        _this4.contacts = results;
+        _this5.contact = null;
+        _this5.contacts = results;
       }).finally(function () {
-        _this4.busy = false;
-        _this4.loading.search = false;
+        _this5.busy = false;
+        _this5.loading.search = false;
       });
     },
     getChannels: function getChannels() {
-      var _this5 = this;
+      var _this6 = this;
 
       this.busy = true;
       this.service.getChannels().then(function (channels) {
-        return _this5.channels = channels;
+        return _this6.channels = channels;
       }).finally(function () {
-        return _this5.busy = false;
+        return _this6.busy = false;
       });
     },
     submit: function submit(model) {
-      var _this6 = this;
+      var _this7 = this;
 
       this.service.sendMessage(this.contact, this.channel, model).then(function () {
-        _this6.messages.push(model);
+        _this7.messages.push(model);
 
-        _this6.$refs.chat.scrollEnd();
+        _this7.$refs.chat.scrollEnd();
       });
     },
     getContacts: function getContacts() {
-      var _this7 = this;
+      var _this8 = this;
 
       this.loading.contacts = true;
       this.busy = true;
       return this.service.getContacts(this.channel).then(function (contacts) {
-        _this7.contacts = contacts;
-        _this7.contact = contacts.find(function (c) {
+        _this8.contacts = contacts;
+        _this8.contact = contacts.find(function (c) {
           return c.id === storage('contact');
         });
       }).finally(function () {
-        _this7.busy = false;
-        _this7.loading.contacts = false;
+        _this8.busy = false;
+        _this8.loading.contacts = false;
       });
     },
     getMessages: function getMessages() {
-      var _this8 = this;
+      var _this9 = this;
 
       this.busy = true;
       return this.service.getMessages(this.channel, this.contact).then(function (messages) {
-        _this8.messages = messages;
+        _this9.messages = messages;
 
-        _this8.$refs.chat.scrollEnd();
+        _this9.$refs.chat.scrollEnd();
 
-        _this8.contact.counter = 0;
+        _this9.contact.counter = 0;
       }).catch(function (err) {
         console.warn(err);
-        _this8.message = null;
-        _this8.messages = null;
+        _this9.message = null;
+        _this9.messages = null;
       }).finally(function () {
-        return _this8.busy = false;
+        return _this9.busy = false;
       });
     }
   }

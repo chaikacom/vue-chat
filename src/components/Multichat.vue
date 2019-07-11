@@ -165,6 +165,7 @@ export default {
 
     appendMessages (messages) {
       this.messages = (this.messages || []).concat(messages)
+      this.$refs.chat.scrollEnd()
     },
 
     refreshAlerts (alerts) {
@@ -172,6 +173,7 @@ export default {
       const contacts = this.contacts.filter(contact => (ids.indexOf(contact.id) > -1))
       contacts.forEach(contact => {
         const counter = alerts.find(alert => alert.id === contact.id)
+        if (contact.id === this.contact.id) return
         contact.counter = counter.counter
       })
     },
