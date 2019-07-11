@@ -48,9 +48,9 @@ import Preloader from './Preloader.vue'
 import Search from './Search.vue'
 import SearchModel from './models/Search'
 
-function storage(field, value, prefix = 'multichat') {
+function storage (field, value, prefix = 'multichat') {
   const key = `${prefix}.${field}`
-  if(!value) {
+  if (!value) {
     return localStorage.getItem(key)
   } else {
     localStorage.setItem(key, value)
