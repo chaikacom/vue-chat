@@ -1,6 +1,6 @@
 {
-  "name": "vue-admin-chat",
-  "version": "0.1.0",
+  "name": "vue-chat",
+  "version": "0.1.1",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
