@@ -20920,12 +20920,12 @@ if (typeof window !== 'undefined') {
 // Indicate to webpack that this file can be concatenated
 /* harmony default export */ var setPublicPath = (null);
 
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"96c797cc-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/Multichat.vue?vue&type=template&id=2ac1838a&
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"96c797cc-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/Multichat.vue?vue&type=template&id=a18ded0c&
 var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"multichat",class:_vm.classList},[_c('div',{staticClass:"multichat__aside"},[(_vm.channels && _vm.channels.length)?_c('ul',{staticClass:"multichat__channels"},_vm._l((_vm.channels),function(item){return _c('li',{key:item.id,staticClass:"multichat__channel"},[_c('button',{staticClass:"multichat__channel-button",class:{ 'is-active': _vm.channel === item.id  },attrs:{"type":"button"},on:{"click":function($event){_vm.channel = item.id}}},[_vm._v("\n          "+_vm._s(item.label)+"\n        ")])])}),0):_vm._e(),_c('search',{model:{value:(_vm.search),callback:function ($$v) {_vm.search=$$v},expression:"search"}}),_c('contacts',{ref:"contacts",staticClass:"multichat__contacts",attrs:{"contacts":_vm.contacts},model:{value:(_vm.contact),callback:function ($$v) {_vm.contact=$$v},expression:"contact"}}),(_vm.loading.contacts)?_c('preloader',[_vm._v("Загрузка...")]):_vm._e(),(_vm.loading.search)?_c('preloader',[_vm._v("Загрузка...")]):_vm._e(),(_vm.notFound)?_c('div',{staticClass:"multichat__aside-inner"},[_vm._v("\n      Ничего не найдено\n    ")]):_vm._e()],1),(_vm.contact)?_c('chat',{ref:"chat",staticClass:"multichat__main multichat__chat",attrs:{"messages":_vm.messages,"message":_vm.message},on:{"input":function($event){_vm.message = $event},"submit":_vm.submit}},[_c('template',{slot:"top"},[(this.busy)?_c('preloader',[_vm._v("Загрузка...")]):_vm._e()],1)],2):_vm._e()],1)}
 var staticRenderFns = []
 
 
-// CONCATENATED MODULE: ./src/components/Multichat.vue?vue&type=template&id=2ac1838a&
+// CONCATENATED MODULE: ./src/components/Multichat.vue?vue&type=template&id=a18ded0c&
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es7.promise.finally.js
 var es7_promise_finally = __webpack_require__("097d");
@@ -22193,7 +22193,7 @@ function storage(field, value) {
         var counter = alerts.find(function (alert) {
           return alert.id === contact.id;
         });
-        if (contact.id === _this3.contact.id) return;
+        if (_this3.contact && contact.id === _this3.contact.id) return;
         contact.counter = counter.counter;
       });
     },
