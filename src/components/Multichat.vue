@@ -76,6 +76,7 @@ export default {
       search: new SearchModel(),
       channels: null,
       channel: null,
+      refresher: null,
 
       loading: {
         contacts: false,
@@ -136,10 +137,14 @@ export default {
     this.getChannels()
 
     if (this.allowRefresh) {
-      setInterval(() => {
+      this.refresher = setInterval(() => {
         this.refresh()
       }, this.refreshInterval)
     }
+  },
+
+  beforeDestroy () {
+    clearInterval(this.refresher)
   },
 
   methods: {
