@@ -30,12 +30,13 @@
     <chat class="multichat__main multichat__chat"
           ref="chat"
           v-if="contact"
+          :contact="contact"
           :messages="messages"
           :message="message"
           @input="message = $event"
           @submit="submit">
-      <template slot="top">
-        <preloader v-if="this.busy">Загрузка...</preloader>
+      <template slot="status">
+        <spinner size="sm" v-if="busy"></spinner>
       </template>
     </chat>
   </div>
@@ -47,6 +48,7 @@ import Contacts from './Contacts.vue'
 import Preloader from './Preloader.vue'
 import Search from './Search.vue'
 import SearchModel from './models/Search'
+import Spinner from './Spinner.vue'
 
 function storage (field, value, prefix = 'multichat') {
   const key = `${prefix}.${field}`
@@ -58,7 +60,7 @@ function storage (field, value, prefix = 'multichat') {
 }
 
 export default {
-  components: { Chat, Contacts, Preloader, Search },
+  components: { Chat, Contacts, Preloader, Search, Spinner },
 
   props: {
     service: { type: Object, default: () => ({}) },

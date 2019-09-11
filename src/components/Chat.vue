@@ -1,12 +1,15 @@
 <template>
   <div class="chat">
     <div class="chat__menu">
-      <div class="chat__alert">
-        <div class="alert">
-          <slot name="top"></slot>
-        </div>
+      <div class="chat__info">
+        ID: {{ contact.id }}
+      </div>
+      <div class="chat__status">
+        <slot name="status"></slot>
       </div>
     </div>
+
+
 
     <div class="chat__messages">
       <messages :messages="messages" v-if="hasMessages"></messages>
@@ -44,6 +47,7 @@ export default {
   },
 
   props: {
+    contact: {},
     message: {},
     messages: {}
   },
@@ -104,8 +108,16 @@ export default {
     position: sticky;
     top: 0;
     background: #fff;
-    padding: $padding-size;
+    padding: $padding-size 55px $padding-size $padding-size;
     z-index: 1;
+    box-shadow: 0 2px 10px rgba(#000, 0.05);
+    margin-bottom: $padding-size;
+  }
+
+  .chat__status {
+    position: absolute;
+    right: 20px;
+    top: 15px;
   }
 
   .chat__messages {
