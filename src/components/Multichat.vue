@@ -192,7 +192,7 @@ export default {
     find (options) {
       this.busy = true
       this.loading.search = true
-      this.service.search(options)
+      this.service.search(options, this.channel)
         .then(results => {
           this.contact = null
           this.contacts = results
