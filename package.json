@@ -10,7 +10,7 @@
   "dependencies": {
     "autosize": "^4.0.2",
     "core-js": "^2.6.5",
-    "moment": "^2.24.0",
+    "moment": "^2.29.2",
     "normalize.css": "^8.0.1",
     "vue": "^2.6.10"
   },
